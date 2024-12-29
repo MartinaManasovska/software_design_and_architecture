@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Issuers</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div id="container">
+        <h1>Select an Issuer and Date Range</h1>
+        
+        <!-- Dropdown for Issuers -->
+        <select id="issuer">
+            <option value="">--Select an Issuer--</option>
+        </select>
+
+        <!-- Date Inputs -->
+        <label for="from-date">From: </label>
+        <input type="date" id="from-date">
+        
+        <label for="to-date">To: </label>
+        <input type="date" id="to-date">
+        
+        <!-- Button to fetch stock data -->
+        <button onclick="fetchStockData()">Fetch Stock Data</button>
+        
+        <!-- Stock Information Section -->
+        <div id="stock-info"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
