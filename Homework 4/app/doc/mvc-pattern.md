@@ -1,17 +1,16 @@
-# Design Patterns Implementation Documentation
+Design Patterns Implementation Documentation
 
-## 1. Model-View-Controller (MVC) Pattern
+1. Model-View-Controller (MVC) Pattern
 
-### Overview
+Overview
 MVC is an architectural pattern that separates an application into three main logical components:
 - Model (Data handling)
 - View (User interface)
 - Controller (Business logic)
 
-### Implementation Details
+Implementation Details
 
-#### Model (`data_model.py`)
-```python
+Model (`data_model.py`)
 class DataModel:
     def __init__(self):
         self.db = DatabaseFactory.get_database("sqlite", "updated_stocks_database.db")
@@ -25,12 +24,12 @@ class DataModel:
         pass
 ```
 
-#### View (`frontend-graph.html`)
+View (`frontend-graph.html`)
 - Handles the presentation layer
 - Displays stock data and RSI signals
 - Provides user interface for data interaction
 
-#### Controller (`controller.py`)
+Controller (`controller.py`)
 ```python
 class DataController:
     def __init__(self):
@@ -45,13 +44,13 @@ class DataController:
         pass
 ```
 
-### Benefits of MVC
-1. **Separation of Concerns**
+Benefits of MVC
+1. Separation of Concerns
    - Clear distinction between data, presentation, and logic
    - Each component can be modified independently
    - Easier to maintain and test
 
-2. **Code Organization**
+2. Code Organization
    - Structured project layout
    - Clear responsibilities for each component
    - Reduced code duplication
