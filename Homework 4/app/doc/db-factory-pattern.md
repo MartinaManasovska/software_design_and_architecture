@@ -1,4 +1,3 @@
-Overview
 The Factory Pattern is implemented for database connections, providing a flexible way to create and manage different types of database connections.
 
 Implementation Details
