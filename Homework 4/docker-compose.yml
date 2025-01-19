@@ -22,3 +22,9 @@ services:
       - "5001:5001"
     environment:
       - FLASK_ENV=production
+    networks:
+      - app-network
+
+networks:
+  app-network:  # Define the network
+    driver: bridge

@@ -1,4 +1,4 @@
-from app.controllers.controller import DataController
+from controllers.controller import DataController
 from flask import Flask, render_template, jsonify, request
 import datetime
 
@@ -38,4 +38,5 @@ def internal_error(error):
     return jsonify({"error": "Internal server error"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    #app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", port=5000)

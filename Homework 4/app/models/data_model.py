@@ -1,7 +1,7 @@
 import sqlite3
 import pandas as pd
 import requests
-from app.models.database_factory import DatabaseFactory
+from models.database_factory import DatabaseFactory
 
 def format_price(price):
         """Convert price string to float with robust error handling"""
@@ -93,6 +93,7 @@ class DataModel:
             self.signal_service_url, 
             json={'data': data}
             )
+            print("Response from signal processing service ", response)
             return response.json()['signals']
         except Exception as e:
             print(f"Error calculating RSI signals: {e}")

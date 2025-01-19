@@ -1,5 +1,5 @@
 from flask import render_template, jsonify
-from app.models.data_model import DataModel
+from models.data_model import DataModel
 from datetime import datetime, timedelta
 
 class DataController:
