@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   main-app:
+    image: homerwork4.azurecr.io/main-app:latest
     build: ./app
     container_name: main-app
     ports:
@@ -16,6 +17,7 @@ services:
     restart: unless-stopped
 
   signal-service:
+    image: homerwork4.azurecr.io/signal-service:latest
     build: ./signal_processing_service
     container_name: signal-service
     ports:
