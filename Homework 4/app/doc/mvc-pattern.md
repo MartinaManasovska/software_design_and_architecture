@@ -53,7 +53,7 @@ Benefits of MVC
    - Clear responsibilities for each component
    - Reduced code duplication
 
-3. **Maintainability**
+3. Maintainability
    - Changes to one component don't affect others
    - Easier to identify and fix bugs
    - Simpler to add new features
