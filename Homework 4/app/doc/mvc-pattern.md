@@ -1,6 +1,6 @@
 Model-View-Controller (MVC) Pattern
 
-Overview
+
 MVC is an architectural pattern that separates an application into three main logical components:
 - Model (Data handling)
 - View (User interface)
