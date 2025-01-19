@@ -1,6 +1,4 @@
-Design Patterns Implementation Documentation
-
-1. Model-View-Controller (MVC) Pattern
+Model-View-Controller (MVC) Pattern
 
 Overview
 MVC is an architectural pattern that separates an application into three main logical components:
