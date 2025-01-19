@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Technical Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <style>
+        .chart-container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .controls {
+            margin: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="controls">
+        <input type="text" id="issuer" placeholder="Issuer">
+        <input type="date" id="fromDate">
+        <input type="date" id="toDate">
+        <button onclick="validateAndFetch()">Analyze</button>
+    </div>
+    
+    <div class="chart-container">
+        <canvas id="technicalChart"></canvas>
+    </div>
+
+    <script>
+    // Separate validation function
+    function validateDates(fromDate, toDate) {
+        const from = new Date(fromDate);
+        const to = new Date(toDate);
+        return from < to;
+    }
+
+    // Validation and fetch wrapper function
+    function validateAndFetch() {
+        const issuer = document.getElementById('issuer').value;
+        const fromDate = document.getElementById('fromDate').value;
+        const toDate = document.getElementById('toDate').value;
+
+        // Validation for empty fields
+        if (!issuer || !fromDate || !toDate) {
+            alert("Please fill in all fields.");
+            return;
+        }
+
+        // Validate date range
+        if (!validateDates(fromDate, toDate)) {
+            alert("The 'From Date' must be earlier than the 'To Date'.");
+            return;
+        }
+
+        // If validation passes, proceed with fetch
+        fetchData(issuer, fromDate, toDate);
+    }
+
+    async function fetchData(issuer, fromDate, toDate) {
+        try {
+            const response = await fetch(`/api/getRSISignals?issuer=${issuer}&from=${fromDate}&to=${toDate}`);
+            if (!response.ok) {
+                alert("No data found for the selected range.");
+                return;
+            }
+            const data = await response.json();
+
+            if (!data || data.length === 0) {
+                alert("No data available for the selected range.");
+                return;
+            }
+
+            renderChart(data);
+        } catch (error) {
+            alert("An error occurred while fetching data.");
+            console.error(error);
+        }
+    }
+
+    function renderChart(data) {
+        const ctx = document.getElementById('technicalChart').getContext('2d');
+        
+        if (window.technicalChart) {
+            window.technicalChart.destroy();
+        }
+
+        window.technicalChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.dates,
+                datasets: [
+                    {
+                        label: 'Price',
+                        data: data.prices,
+                        borderColor: 'blue',
+                        yAxisID: 'y'
+                    },
+                    {
+                        label: 'RSI',
+                        data: data.rsi,
+                        borderColor: 'red',
+                        yAxisID: 'rsi'
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                    },
+                    rsi: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        min: 0,
+                        max: 100,
+                        grid: {
+                            drawOnChartArea: false
+                        }
+                    }
+                },
+                plugins: {
+                    annotation: {
+                        annotations: data.signals.map((signal, index) => {
+                            if (signal === 'Hold') return null;
+                            return {
+                                type: 'point',
+                                xValue: data.dates[index],
+                                yValue: data.prices[index],
+                                backgroundColor: signal === 'Buy' ? 'green' : 'red',
+                                radius: 6,
+                                label: {
+                                    enabled: true,
+                                    content: signal,
+                                    position: 'top',
+                                    font: { size: 10 }
+                                }
+                            };
+                        }).filter(annotation => annotation !== null)
+                    }
+                }
+            }
+        });
+    }
+    </script>
+</body>
+</html>
