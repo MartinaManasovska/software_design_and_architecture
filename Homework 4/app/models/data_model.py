@@ -19,8 +19,8 @@ class DataModel:
     def __init__(self):
         # Initialize with SQLite database
         self.db = DatabaseFactory.get_database("sqlite", "updated_stocks_database.db")
-        #self.signal_service_url = 'http://signal-service:5001/process' #defines url of the service you wanna call
-        self.signal_service_url = 'http://localhost:5001/process' #defines url of the service you wanna call
+        self.signal_service_url = 'http://signal-service:5001/process' #defines url of the service you wanna call
+        #self.signal_service_url = 'http://localhost:5001/process' #defines url of the service you wanna call
     
     def get_db_connection(self):
         """Create a database connection using the factory"""
