@@ -1,12 +1,10 @@
-## 2. Database Factory Pattern
-
 ### Overview
 The Factory Pattern is implemented for database connections, providing a flexible way to create and manage different types of database connections.
 
 ### Implementation Details
 
 #### Abstract Base Class
-```python
+python
 class DatabaseConnection(ABC):
     @abstractmethod
     def connect(self):
@@ -15,10 +13,10 @@ class DatabaseConnection(ABC):
     @abstractmethod
     def disconnect(self):
         pass
-```
+
 
 #### Concrete Implementation
-```python
+python
 class SQLiteConnection(DatabaseConnection):
     def __init__(self, db_name):
         self.db_name = db_name
@@ -32,17 +30,17 @@ class SQLiteConnection(DatabaseConnection):
         except sqlite3.Error as e:
             print(f"Database connection error: {e}")
             return None
-```
+
 
 #### Factory Class
-```python
+python
 class DatabaseFactory:
     @staticmethod
     def get_database(db_type, db_name):
         if db_type.lower() == "sqlite":
             return SQLiteConnection(db_name)
         raise ValueError(f"Unsupported database type: {db_type}")
-```
+
 
 ### Benefits of Factory Pattern
 1. **Flexibility**
@@ -64,7 +62,7 @@ The two patterns work together effectively:
 4. The View displays the processed data to users
 
 ## Code Example of Pattern Integration
-```python
+python
 # In DataModel (Model component using Factory Pattern)
 class DataModel:
     def __init__(self):
@@ -81,7 +79,7 @@ class DataController:
     def get_stock_data(self, request):
         # Process request and use model to fetch data
         return self.model.fetch_stock_data_from_db(...)
-```
+
 
 ## Why These Patterns?
 
