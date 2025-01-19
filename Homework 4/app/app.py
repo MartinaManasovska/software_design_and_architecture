@@ -1,7 +1,6 @@
 from app.controllers.controller import DataController
 from flask import Flask, render_template, jsonify, request
 import datetime
-import numpy as np
 
 # Initialize Flask app
 app = Flask(__name__)
