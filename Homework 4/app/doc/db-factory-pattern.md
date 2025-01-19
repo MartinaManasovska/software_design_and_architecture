@@ -1,9 +1,9 @@
-### Overview
+Overview
 The Factory Pattern is implemented for database connections, providing a flexible way to create and manage different types of database connections.
 
-### Implementation Details
+Implementation Details
 
-#### Abstract Base Class
+Abstract Base Class
 python
 class DatabaseConnection(ABC):
     @abstractmethod
@@ -15,8 +15,8 @@ class DatabaseConnection(ABC):
         pass
 
 
-#### Concrete Implementation
-python
+Concrete Implementation
+
 class SQLiteConnection(DatabaseConnection):
     def __init__(self, db_name):
         self.db_name = db_name
@@ -32,8 +32,8 @@ class SQLiteConnection(DatabaseConnection):
             return None
 
 
-#### Factory Class
-python
+Factory Class
+
 class DatabaseFactory:
     @staticmethod
     def get_database(db_type, db_name):
@@ -42,18 +42,18 @@ class DatabaseFactory:
         raise ValueError(f"Unsupported database type: {db_type}")
 
 
-### Benefits of Factory Pattern
-1. **Flexibility**
+Benefits of Factory Pattern
+1. Flexibility
    - Easy to add new database types
    - Simple to switch between different databases
    - Supports testing with mock databases
 
-2. **Encapsulation**
+2. Encapsulation
    - Database connection details are hidden
    - Consistent interface for all database types
    - Centralized error handling
 
-## Pattern Integration
+Pattern Integration
 
 The two patterns work together effectively:
 1. The Factory Pattern creates database connections used by the Model
@@ -61,9 +61,9 @@ The two patterns work together effectively:
 3. The Controller coordinates data flow between Model and View
 4. The View displays the processed data to users
 
-## Code Example of Pattern Integration
+Code Example of Pattern Integration
 python
-# In DataModel (Model component using Factory Pattern)
+In DataModel (Model component using Factory Pattern)
 class DataModel:
     def __init__(self):
         self.db = DatabaseFactory.get_database("sqlite", "updated_stocks_database.db")
@@ -71,7 +71,7 @@ class DataModel:
     def get_db_connection(self):
         return self.db.connect()
 
-# In DataController (Controller component using Model)
+In DataController (Controller component using Model)
 class DataController:
     def __init__(self):
         self.model = DataModel()
@@ -81,31 +81,32 @@ class DataController:
         return self.model.fetch_stock_data_from_db(...)
 
 
-## Why These Patterns?
+Why These Patterns?
 
-1. **MVC Pattern**
+1. MVC Pattern
    - Perfect for web applications with clear separation of concerns
    - Supports multiple views of the same data
    - Makes the application more maintainable and scalable
    - Facilitates parallel development
 
-2. **Factory Pattern**
+2. Factory Pattern
    - Provides flexibility in database selection
    - Makes testing easier with mock databases
    - Centralizes database connection management
    - Supports future expansion to different database types
 
-## Future Improvements
+Future Improvements
 
-1. **MVC Enhancements**
+1. MVC Enhancements
    - Add more views for different data visualizations
    - Implement caching in the Model layer
    - Add view models for complex data transformations
 
-2. **Factory Pattern Extensions**
+2. Factory Pattern Extensions
    - Add support for PostgreSQL and MySQL
    - Implement connection pooling
    - Add monitoring and logging features
 
-## Conclusion
+ 
+Conclusion
 The combination of MVC and Factory patterns creates a robust, maintainable, and flexible application architecture. MVC provides the overall structure, while the Factory Pattern handles database connectivity in a clean and extensible way. Together, they create a solid foundation for future development and scaling.
