@@ -1,6 +1,6 @@
 import sqlite3
 import pandas as pd
-from ta.momentum import RSIIndicator
+import requests
 from app.models.database_factory import DatabaseFactory
 
 def format_price(price):
@@ -19,11 +19,12 @@ class DataModel:
     def __init__(self):
         # Initialize with SQLite database
         self.db = DatabaseFactory.get_database("sqlite", "updated_stocks_database.db")
+        #self.signal_service_url = 'http://signal-service:5001/process' #defines url of the service you wanna call
+        self.signal_service_url = 'http://localhost:5001/process' #defines url of the service you wanna call
     
     def get_db_connection(self):
         """Create a database connection using the factory"""
         return self.db.connect()
-
     
     def fetch_issuers_from_db(self):
         """Fetch unique issuers from database with error handling"""
@@ -87,29 +88,12 @@ class DataModel:
         try:
             if not data:
                 return []
-
-            df = pd.DataFrame(data)
-            
-            # Ensure numeric type for calculations
-            df['last_trade_price'] = pd.to_numeric(df['last_trade_price'], errors='coerce')
-            
-            # Calculate RSI
-            rsi = RSIIndicator(close=df['last_trade_price'], window=14)
-            df['RSI'] = rsi.rsi()
-            
-            # Generate signals
-            df['signal'] = 'Hold'
-            df.loc[df['RSI'] < 30, 'signal'] = 'Buy'
-            df.loc[df['RSI'] > 70, 'signal'] = 'Sell'
-            
-            # Handle NaN values
-            df = df.fillna({
-                'RSI': 50,
-                'signal': 'Hold'
-            })
-            
             # Convert to records
-            return df[['date', 'last_trade_price', 'RSI', 'signal']].to_dict('records')
+            response = requests.post(
+            self.signal_service_url, 
+            json={'data': data}
+            )
+            return response.json()['signals']
         except Exception as e:
             print(f"Error calculating RSI signals: {e}")
             return []
